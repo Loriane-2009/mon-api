@@ -1,6 +1,9 @@
 import express from 'express';
 import createError from 'http-errors';
 import logger from 'morgan';
+import mongoose from 'mongoose';
+
+
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
@@ -12,6 +15,10 @@ app.use(express.json());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+await mongoose.connect(
+  process.env.DATABASE_URL ?? 'mongodb://127.0.0.1/your-app-name'
+);
 
 // Catch 404 and forward to the error handler
 app.use(function (req, res, next) {
